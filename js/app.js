@@ -1,37 +1,50 @@
-//display will first be clear with only buttons.
-
-// assign a value to each card in the "cards" array: Maybe I will have to have a key of Cards with each card having
-// a value for each card for later summing. 
-
-// sum function to calculate win loss or draw. (nacho libre audio quote plays depending on status)
 
 
+// ---------------------------------functions--------------------------------------------//
 
-
-
-// ---------------------------------User Actions--------------------------------------------
-
-// User clicks on the "deal" button and a card is randomly drawn from the cards array.
-
-// First 2 cards will "randomly" be drawn from the "cards" array and placed in the  "playerHand" array and add
+// PLAY function
+// First 2 cards will "randomly" be drawn from the "deck" array and placed in the  "playerHand" array and add
 // the sum of the "playerHand" array to the "playerScore" variable. Run sum function to see if player wins, loses or
-// draws with dealer.
+// draws with dealer. Run Dealer
 // (display both cards showing on the screen.)
 
-// Second another 2 cards will be "randomly" drawn from the "cards" array and placed in the "dealerHand" array and
-// add the sum of the "dealerHand" array to a hidden "dealerScore" variable. How will the dealer know when to hit or stay???
+// (DEALER) another 2 cards will be "randomly" drawn from the "deck" array and placed in the "dealerHand" array and
+// add the sum of the "dealerHand" array to a hidden "dealerScore" variable. Run a dealer sum function. Wait for player
 // (display Front of card shown on one and back of card of the other.)
 
+// Player sum function to calculate win loss or draw. If player reaches 5 cards player wins(5 card Nacho) (nacho libre audio 
+// quote plays depending on status)
+
+// Dealer sum function to provide some AI. If dealer sum is less then 18 hit. If dealer sum is between 18 and 21 stay.
+
+//-----------------------------------Event Listeners--------------------------------------------------//
+
+// when "HIT" is clicked function starts to randomly take a card from the "deck" array and place in the "playerHand"
+// array. (display facing front) run sum function to see if win loss or draw. If all false then Dealer turn.
+
+// when "STAND" is clicked players game is done and dealerHand runs.
+
+// "DEAL" button resets the game at any point and starts play function
+
+// ---------------------------------------Cashed Element Ref-----------------------------------------------------//
+//                                      Storing the DOM element in a variable.
+const deck = document.getElementById('deck')
 
 
 
-// when "Hit" is clicked function starts to randomly take a card from the "cards" array and place in the "playerHand"
-// array. (display facing front) if the sum of the array is more then 21 then player loses, if it is less then 21 
-// then player can continue to hit or stand. 
+// ------------------------------------------App State (variables)-------------------------------------------//
+//                         Objects the app needs to rememeber throughout execution
+
+// deck Array or keys (the deck)
+//      assign a value to each card in the "cards" array x 4: Maybe I will have to have a key of Cards with each card having
+//      a value for each card for later summing. Ace can be 1 or 11(figure that out??)
+
+// playerHand Array
+
+// playerScore variable
+
+// dealerHand Array
+
+// dealerScore variable
 
 
-
-// when "stand" is clicked no action is taken and dealerHand runs.
-
-
-// Deal button resets the game at any point.
