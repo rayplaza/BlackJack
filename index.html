@@ -4,15 +4,35 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/style.css">
     <script defer type="text/javascript" src="js/app.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Black Jack Black</title>
 </head>
 <body>
-    <div id='deck'>
-
-        
+    <div id="table">
+        <div id="dealer-score" class="score">Ramses score: <span>0</span></div>
+            <div id="deck">
+                <div class="back"></div>
+            </div>
+            <div class="container" id="dealer">
+            </div>
+          
+            <div class="border-line"></div>
+          
+            <div id="player-score" class="score">Ignacio score: <span>0</span></div>
+            <div class="container" id="player">
+            </div>
     </div>
-    
+          
+          <div id="panel">
+            <img src="https://i.imgur.com/35JQ5UO.png">
+            <div id="message">Nachoooo! Press "Deal" if you wanna win.</div>
+            
+            <button id="deal">DEAL</button></br>
+            <button id="hit">HIT</button>
+            <button id="stand">STAND</button>
+          
+          </div>
 </body>
 </html>
