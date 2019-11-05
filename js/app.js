@@ -46,7 +46,23 @@ var standButton = document.querySelector('#stand');
 //      assign a value to each card in the "cards" array x 4: Maybe I will have to have a key of Cards with each card having
 //      a value for each card for later summing. Ace can be 1 or 11(figure that out??)
 let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-let values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king', 'ace'];
+let values = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
+
+const numVals = {
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+    "T": 10,
+    "J": 10,
+    "Q": 10,
+    "K": 10,
+    "A": 11
+}
 
 class Card {
     constructor(suit, value) {
@@ -81,23 +97,53 @@ class Deck {
         return this.deck;
     }
 
-    deal() {
-        let hand = [];
-        while(hand.length < 2) {
-            hand.push(this.deck.pop());
+    playerDeal() {
+        let playerHand = [];
+        while(playerHand.length < 2) {
+            playerHand.push(this.deck.pop());
         }
-        return hand;
+        return playerHand;
+    }
+
+    dealerDeal() {
+        let dealerHand = [];
+        while(dealerHand.length < 2) {
+            dealerHand.push(this.deck.pop());
+        }
+        return dealerHand;
     }
 }
 
-let deck = new Deck();
-deck.createDeck(suits, values);
-deck.shuffle();
-console.log(deck.deal());
 
 
-// playerHand Array
-// var playerHand = [];
+// EVENT LISTENERS!!!!!!!!!!!!
+
+dealButton.addEventListener('click', init)
+
+// FUNCTIONS!!!!!!!!!
+
+function init(){
+    let deck = new Deck();
+    deck.createDeck(suits, values);
+    deck.shuffle();
+    playerHand = deck.playerDeal()
+    dealerHand = deck.dealerDeal()
+    console.log(playerHand[0].value)
+}
+
+
+function computeValue(hand){
+    let total = 0
+    console.log(hand)
+    hand.forEach(e => {
+        console.log("card value", numVals[e.value])
+        total += numVals[e.value]
+    })
+    return total
+}
+
+
+
 
 // playerScore variable
 var playerScore = '';
