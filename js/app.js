@@ -26,9 +26,16 @@
 
 // "DEAL" button resets the game at any point and starts play function
 
+
 // ---------------------------------------Cashed Element Ref-----------------------------------------------------//
 //                                      Storing the DOM element in a variable.
-// const deck = document.getElementById('deck')
+var dealerScore = document.querySelector('#dealer-score').getElementsByTagName('span')[0];
+var playerScore = document.querySelector('#player-score').getElementsByTagName('span')[0];
+var dealButton = document.querySelector('#deal');
+var hitButton = document.querySelector('#hit');
+var standButton = document.querySelector('#stand');
+
+
 
 
 
