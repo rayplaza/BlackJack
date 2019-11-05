@@ -28,7 +28,7 @@
 
 // ---------------------------------------Cashed Element Ref-----------------------------------------------------//
 //                                      Storing the DOM element in a variable.
-const deck = document.getElementById('deck')
+// const deck = document.getElementById('deck')
 
 
 
@@ -38,7 +38,47 @@ const deck = document.getElementById('deck')
 // deck Array or keys (the deck)
 //      assign a value to each card in the "cards" array x 4: Maybe I will have to have a key of Cards with each card having
 //      a value for each card for later summing. Ace can be 1 or 11(figure that out??)
-var deckArr
+let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+let values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'queen', 'king', 'ace'];
+
+class Card {
+    constructor(suit, value) {
+        this.suit = suit;
+        this.value = value;
+    }
+}
+
+class Deck {
+    constructor() {
+        this.deck = []
+    }
+
+    createDeck(suits, values) {
+        for(let suit of suits) {
+            for(let value of values) {
+                this.deck.push(new Card(suit, value))
+            }
+        }
+        return this.deck;
+    }
+    shuffle() {
+        
+    }
+
+    deal() {
+        let hand = [];
+        while(hand.length < 2) {
+            hand.push(this.deck.pop());
+        }
+        return hand;
+    }
+}
+
+
+let deck = new Deck();
+deck.createDeck(suits, values);
+console.log(deck.deal());
+
 
 // playerHand Array
 var playerHand = [];
