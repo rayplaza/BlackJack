@@ -38,13 +38,18 @@ const deck = document.getElementById('deck')
 // deck Array or keys (the deck)
 //      assign a value to each card in the "cards" array x 4: Maybe I will have to have a key of Cards with each card having
 //      a value for each card for later summing. Ace can be 1 or 11(figure that out??)
+var deckArr
 
 // playerHand Array
+var playerHand = [];
 
 // playerScore variable
+var playerScore = '';
 
 // dealerHand Array
+var dealerScore = [];
 
 // dealerScore variable
+var dealerScore = '';
 
 
