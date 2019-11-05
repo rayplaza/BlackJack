@@ -63,6 +63,15 @@ class Deck {
     }
     shuffle() {
         
+        let counter = this.deck.length, temp, i;
+        // This is called the Fisher-Yates algorithm. Flips indices within an array and randomize.
+        while(counter) {
+            i = Math.floor(Math.random() * counter--);
+            temp = this.deck[counter];
+            this.deck[counter] = this.deck[i];
+            this.deck[i] = temp;
+        }
+        return this.deck;
     }
 
     deal() {
@@ -74,20 +83,24 @@ class Deck {
     }
 }
 
+var playerHand;
+var dealerHand;
 
+function startGame() {
 let deck = new Deck();
 deck.createDeck(suits, values);
-console.log(deck.deal());
+deck.shuffle();
+deck.deal();
 
 
 // playerHand Array
-var playerHand = [];
+// var playerHand = [];
 
 // playerScore variable
 var playerScore = '';
 
 // dealerHand Array
-var dealerScore = [];
+// var dealerHand = [];
 
 // dealerScore variable
 var dealerScore = '';
