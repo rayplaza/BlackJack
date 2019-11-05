@@ -83,14 +83,10 @@ class Deck {
     }
 }
 
-var playerHand;
-var dealerHand;
-
-function startGame() {
 let deck = new Deck();
 deck.createDeck(suits, values);
 deck.shuffle();
-deck.deal();
+console.log(deck.deal());
 
 
 // playerHand Array
