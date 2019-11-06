@@ -49,8 +49,10 @@ var message = document.querySelector('#message');
 let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
 let values = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
 let deck, playerHand, dealerHand;
-let playerscore;
-let dealerscore;
+let playerVal = 0;
+let dealerVal = 0;
+
+
 
 const numVals = {
     2: 2,
@@ -72,6 +74,15 @@ class Card {
     constructor(suit, value) {
         this.suit = suit;
         this.value = value;
+    }
+    computeValue(hand){
+        let total = 0
+        console.log(hand)
+        hand.forEach(e => {
+            console.log("card value", numVals[e.value])
+            total += numVals[e.value]
+        })
+        return total
     }
 }
 
@@ -183,7 +194,9 @@ function computeValue(hand){
     return total
 }
 
-
+function render() {
+    
+}
 
 // calculate the score
 // function getScore() {
