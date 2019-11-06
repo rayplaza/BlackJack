@@ -152,6 +152,7 @@ function dealButtonInit(){
     console.log(playerHand = deck.playerDeal());
     console.log(dealerHand = deck.dealerDeal());
     renderCards();
+    outcome();
     
 }
 
@@ -161,9 +162,7 @@ function hitButtonInit() {
     console.log("DECK: ", deck)
     playerHand.push(deck.deck.pop());
     renderCards();
-    // if(player.calScore() > 21) {
-    //     gameOver('You are like a floosy');
-    // }
+    outcome();
 }
 
 // My Stand Initializer function
@@ -248,11 +247,3 @@ function outcome() {
 
 
 
-// function doMessage(str) {
-//     message.innerHTML = str;
-// }
-
-// CREATE A gameOver function
-// function gameOver(str) {
-//     doMessage(str);
-// }
