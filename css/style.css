@@ -26,7 +26,7 @@ div {
 }
 
 button {
-    border:none;
+    border: none;
     background-color: rgb(152, 210, 230);
     border-radius: 5px;
     padding: 15px 25px;
@@ -67,3 +67,4 @@ button {
     margin: 20px 0;
   }
   
+

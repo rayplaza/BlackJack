@@ -53,6 +53,7 @@ let ranks = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
 let deck, playerHand, dealerHand;
 let playerVal = 0;
 let dealerVal = 0;
+let numOfHits = 1;
 
 
 
@@ -171,22 +172,22 @@ function hitButtonInit() {
 // }
 
 // Dealer Play function
-function dealerPlay() {
-    if (dealerHand < 17) {
-        setTimeout(function() {
-            var card = Deck.deck.pop();
-            dealerHand.push(card);
-        }, 1000);
-    } else if (dealerHand >= 21) {
-        setTimeout(function() {
-            gameOver();
-        }, 1100);
-    } else if (dealerHand >= 17) {
-        setTimeout(function() {
-            gameOver();
-        }, 1100);
-    }
-}
+// function dealerPlay() {
+//     if (dealerHand < 17) {
+//         setTimeout(function() {
+//             var card = Deck.deck.pop();
+//             dealerHand.push(card);
+//         }, 1000);
+//     } else if (dealerHand >= 21) {
+//         setTimeout(function() {
+//             gameOver();
+//         }, 1100);
+//     } else if (dealerHand >= 17) {
+//         setTimeout(function() {
+//             gameOver();
+//         }, 1100);
+//     }
+// }
 
 // This gives value to each rank
 // function computeValue(hand){
@@ -200,13 +201,26 @@ function dealerPlay() {
 // }
 
 function render() {
-
-    playerHand.forEach(function(i) {
-        let nextCardImg = document.createElement('img');
-        nextCardImg.setAttribute('src', cardImg(i));
-        playerContainer.appendChild(nextCardImg);
-    })
-
+    console.log(playerContainer)
+    if(numOfHits == 1){
+        playerHand.forEach(function(i) {
+            // console.log(i)
+            let nextCardImg = document.createElement('img');
+            nextCardImg.setAttribute('src', cardImg(i));
+            playerContainer.appendChild(nextCardImg);
+        })
+    } else {
+        playerHand.forEach(function(i, x) {
+            console.log("X", x)
+            console.log("numOfHits", numOfHits)
+            if(x >= numOfHits){
+                let nextCardImg = document.createElement('img');
+                nextCardImg.setAttribute('src', cardImg(i));
+                playerContainer.appendChild(nextCardImg);
+            }
+        })
+    }
+    numOfHits++
 }
 
 function cardImg(card) {
@@ -216,31 +230,18 @@ function cardImg(card) {
 
 }
 
-// calculate the score
-// function getScore() {
-//     var sum = 0;
-//     for()
 
+
+
+
+
+
+
+// function doMessage(str) {
+//     message.innerHTML = str;
 // }
 
-
-
-
-
-
-// playerScore variable
-// var playerScore = 
-// console.log(playerScore)
-
-// dealerScore variable
-var dealerScore = '';
-
-function doMessage(str) {
-    message.innerHTML = str;
-}
-
 // CREATE A gameOver function
-function gameOver(str) {
-    doMessage(str);
-}
-
+// function gameOver(str) {
+//     doMessage(str);
+// }
