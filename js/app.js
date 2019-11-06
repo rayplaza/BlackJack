@@ -49,7 +49,7 @@ var dealerContainer = document.querySelector('#dealer');
 //      assign a value to each card in the "cards" array x 4: Maybe I will have to have a key of Cards with each card having
 //      a value for each card for later summing. Ace can be 1 or 11(figure that out??)
 let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-let values = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
+let ranks = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
 let deck, playerHand, dealerHand;
 let playerVal = 0;
 let dealerVal = 0;
@@ -73,16 +73,17 @@ const numVals = {
 }
 
 class Card {
-    constructor(suit, value) {
+    constructor(suit, rank, isFaceUp = true) {
         this.suit = suit;
-        this.value = value;
+        this.rank = rank;
+        this.isFaceUp = isFaceUp;
     }
     computeValue(hand){
         let total = 0
         console.log(hand)
         hand.forEach(e => {
-            console.log("card value", numVals[e.value])
-            total += numVals[e.value]
+            console.log("card rank", numVals[e.rank])
+            total += numVals[e.rank]
         })
         return total
     }
@@ -93,10 +94,10 @@ class Deck {
         this.deck = []
     }
 
-    createDeck(suits, values) {
+    createDeck(suits, ranks) {
         for(let suit of suits) {
-            for(let value of values) {
-                this.deck.push(new Card(suit, value))
+            for(let rank of ranks) {
+                this.deck.push(new Card(suit, rank))
             }
         }
         return this.deck;
@@ -124,7 +125,7 @@ class Deck {
 
     dealerDeal() {
         dealerHand = [];
-        while(dealerHand.length < 1) {
+        while(dealerHand.length < 2) {
             dealerHand.push(this.deck.pop());
         }
         return dealerHand;
@@ -145,10 +146,11 @@ hitButton.addEventListener('click', hitButtonInit);
 // My Deal Initializer function
 function dealButtonInit(){
     deck = new Deck();
-    deck.createDeck(suits, values);
+    deck.createDeck(suits, ranks);
     deck.shuffle();
     console.log(playerHand = deck.playerDeal());
     console.log(dealerHand = deck.dealerDeal());
+    render();
     
 }
 
@@ -157,6 +159,7 @@ function dealButtonInit(){
 function hitButtonInit() {
     console.log("DECK: ", deck)
     playerHand.push(deck.deck.pop());
+    render();
     // if(player.calScore() > 21) {
     //     gameOver('You are like a floosy');
     // }
@@ -186,15 +189,15 @@ function dealerPlay() {
 }
 
 // This gives value to each rank
-function computeValue(hand){
-    let total = 0
-    console.log(hand)
-    hand.forEach(e => {
-        console.log("card value", numVals[e.value])
-        total += numVals[e.value]
-    })
-    return total
-}
+// function computeValue(hand){
+//     let total = 0
+//     console.log(hand)
+//     hand.forEach(e => {
+//         console.log("card value", numVals[e.value])
+//         total += numVals[e.value]
+//     })
+//     return total
+// }
 
 function render() {
 
@@ -203,6 +206,13 @@ function render() {
         nextCardImg.setAttribute('src', cardImg(i));
         playerContainer.appendChild(nextCardImg);
     })
+
+}
+
+function cardImg(card) {
+    if(card.isFaceUp)
+        return `images/${card.suit}/${card.suit}-r${card.rank}.svg`;
+    return "images/backs/red.svg";
 
 }
 
