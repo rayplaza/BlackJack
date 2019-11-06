@@ -203,16 +203,13 @@ function hitButtonInit() {
 function render() {
     console.log(playerContainer)
     if(numOfHits == 1){
-        playerHand.forEach(function(i) {
-            // console.log(i)
+        playerHand.forEach(function(i) {``
             let nextCardImg = document.createElement('img');
             nextCardImg.setAttribute('src', cardImg(i));
             playerContainer.appendChild(nextCardImg);
         })
     } else {
         playerHand.forEach(function(i, x) {
-            console.log("X", x)
-            console.log("numOfHits", numOfHits)
             if(x >= numOfHits){
                 let nextCardImg = document.createElement('img');
                 nextCardImg.setAttribute('src', cardImg(i));
