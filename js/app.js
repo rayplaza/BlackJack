@@ -34,6 +34,7 @@ var playerScore = document.querySelector('#player-score').getElementsByTagName('
 var dealButton = document.querySelector('#deal');
 var hitButton = document.querySelector('#hit');
 var standButton = document.querySelector('#stand');
+var message = document.querySelector('#message');
 
 
 
@@ -47,6 +48,7 @@ var standButton = document.querySelector('#stand');
 //      a value for each card for later summing. Ace can be 1 or 11(figure that out??)
 let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
 let values = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
+let deck, playerHand, dealerHand;
 
 const numVals = {
     2: 2,
@@ -98,7 +100,7 @@ class Deck {
     }
 
     playerDeal() {
-        let playerHand = [];
+        playerHand = [];
         while(playerHand.length < 2) {
             playerHand.push(this.deck.pop());
         }
@@ -106,8 +108,8 @@ class Deck {
     }
 
     dealerDeal() {
-        let dealerHand = [];
-        while(dealerHand.length < 2) {
+        dealerHand = [];
+        while(dealerHand.length < 1) {
             dealerHand.push(this.deck.pop());
         }
         return dealerHand;
@@ -115,23 +117,60 @@ class Deck {
 }
 
 
-
 // EVENT LISTENERS!!!!!!!!!!!!
 
-dealButton.addEventListener('click', init)
+dealButton.addEventListener('click', dealButtonInit);
+hitButton.addEventListener('click', hitButtonInit);
+// standButton.addEventListener('click', standButtonInit)
 
 // FUNCTIONS!!!!!!!!!
 
-function init(){
-    let deck = new Deck();
+
+
+// My Deal Initializer function
+function dealButtonInit(){
+    deck = new Deck();
     deck.createDeck(suits, values);
     deck.shuffle();
-    playerHand = deck.playerDeal()
-    dealerHand = deck.dealerDeal()
-    console.log(playerHand[0].value)
+    console.log(playerHand = deck.playerDeal());
+    console.log(dealerHand = deck.dealerDeal());
+    
 }
 
 
+// My Hit Initializer function
+function hitButtonInit() {
+    console.log("DECK: ", deck)
+    playerHand.push(deck.deck.pop());
+    // if(player.calScore() > 21) {
+    //     gameOver('You are like a floosy');
+    // }
+}
+
+// My Stand Initializer function
+// function standButtonInit() {
+
+// }
+
+// Dealer Play function
+function dealerPlay() {
+    if (dealerHand < 17) {
+        setTimeout(function() {
+            var card = Deck.deck.pop();
+            dealerHand.push(card);
+        }, 1000);
+    } else if (dealerHand >= 21) {
+        setTimeout(function() {
+            gameOver();
+        }, 1100);
+    } else if (dealerHand >= 17) {
+        setTimeout(function() {
+            gameOver();
+        }, 1100);
+    }
+}
+
+// This gives value to each rank
 function computeValue(hand){
     let total = 0
     console.log(hand)
@@ -143,15 +182,33 @@ function computeValue(hand){
 }
 
 
+// calculate the score
+// function calScore(hand) {
+//     var total = 0
+//     for(var i = 0, i < hand.length; i++) {
+//         if(i == 0) total = playerHand[i].getValue(0);
+//         else total += playerHand[i].getValue(total);
+//     }
+//     return total;
+// }
+
+
+
 
 
 // playerScore variable
-var playerScore = '';
-
-// dealerHand Array
-// var dealerHand = [];
+// var playerScore = 
+// console.log(playerScore)
 
 // dealerScore variable
 var dealerScore = '';
 
+function doMessage(str) {
+    message.innerHTML = str;
+}
+
+// CREATE A gameOver function
+function gameOver(str) {
+    doMessage(str);
+}
 
