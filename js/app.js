@@ -49,6 +49,8 @@ var message = document.querySelector('#message');
 let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
 let values = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
 let deck, playerHand, dealerHand;
+let playerscore;
+let dealerscore;
 
 const numVals = {
     2: 2,
@@ -182,15 +184,14 @@ function computeValue(hand){
 }
 
 
+
 // calculate the score
-// function calScore(hand) {
-//     var total = 0
-//     for(var i = 0, i < hand.length; i++) {
-//         if(i == 0) total = playerHand[i].getValue(0);
-//         else total += playerHand[i].getValue(total);
-//     }
-//     return total;
+// function getScore() {
+//     var sum = 0;
+//     for()
+
 // }
+
 
 
 
