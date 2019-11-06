@@ -151,7 +151,7 @@ function dealButtonInit(){
     deck.shuffle();
     console.log(playerHand = deck.playerDeal());
     console.log(dealerHand = deck.dealerDeal());
-    render();
+    renderCards();
     
 }
 
@@ -160,7 +160,7 @@ function dealButtonInit(){
 function hitButtonInit() {
     console.log("DECK: ", deck)
     playerHand.push(deck.deck.pop());
-    render();
+    renderCards();
     // if(player.calScore() > 21) {
     //     gameOver('You are like a floosy');
     // }
@@ -189,18 +189,22 @@ function hitButtonInit() {
 //     }
 // }
 
-// This gives value to each rank
-// function computeValue(hand){
-//     let total = 0
-//     console.log(hand)
-//     hand.forEach(e => {
-//         console.log("card value", numVals[e.value])
-//         total += numVals[e.value]
-//     })
-//     return total
-// }
+// Calculates the sum of the players hand
+function calSum(hand){
+    let total = 0
+    hand.forEach(e => {
+        console.log("card rank", numVals[e.rank])
+        total += numVals[e.rank]
+    })
+    return total
+}
 
-function render() {
+
+
+
+
+
+function renderCards() {
     console.log(playerContainer)
     if(numOfHits == 1){
         playerHand.forEach(function(i) {
@@ -235,7 +239,9 @@ function cardImg(card) {
 
 }
 
-
+function outcome() {
+    playerScore.textContent = calSum(playerHand);
+}
 
 
 
