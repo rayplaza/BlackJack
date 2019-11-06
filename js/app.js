@@ -35,6 +35,8 @@ var dealButton = document.querySelector('#deal');
 var hitButton = document.querySelector('#hit');
 var standButton = document.querySelector('#stand');
 var message = document.querySelector('#message');
+var playerContainer = document.querySelector('#player');
+var dealerContainer = document.querySelector('#dealer');
 
 
 
@@ -195,7 +197,13 @@ function computeValue(hand){
 }
 
 function render() {
-    
+
+    playerHand.forEach(function(i)) {
+        let nextCardImg = document.createElement('img');
+        nextCardImg.setAttribute('src', cardImg(i));
+        playerContainer.appendChild(nextCardImg)
+    }
+
 }
 
 // calculate the score
