@@ -203,9 +203,13 @@ function hitButtonInit() {
 function render() {
     console.log(playerContainer)
     if(numOfHits == 1){
-        playerHand.forEach(function(i) {``
+        playerHand.forEach(function(i) {
             let nextCardImg = document.createElement('img');
             nextCardImg.setAttribute('src', cardImg(i));
+            nextCardImg.style.width = "100px";
+            nextCardImg.style.border = "1px solid black";
+            nextCardImg.style.borderRadius = "5px";
+            nextCardImg.style.margin = "10px";
             playerContainer.appendChild(nextCardImg);
         })
     } else {
@@ -213,6 +217,10 @@ function render() {
             if(x >= numOfHits){
                 let nextCardImg = document.createElement('img');
                 nextCardImg.setAttribute('src', cardImg(i));
+                nextCardImg.style.width = "100px";
+                nextCardImg.style.border = "1px solid black";
+                nextCardImg.style.borderRadius = "5px";
+                nextCardImg.style.margin = "10px";
                 playerContainer.appendChild(nextCardImg);
             }
         })
