@@ -34,7 +34,7 @@ var playerScore = document.querySelector('#player-score').getElementsByTagName('
 var dealButton = document.querySelector('#deal');
 var hitButton = document.querySelector('#hit');
 var standButton = document.querySelector('#stand');
-var message = document.querySelector('#message');
+var nachoMessage = document.querySelector('#message');
 var playerContainer = document.querySelector('#player');
 var dealerContainer = document.querySelector('#dealer');
 
@@ -242,7 +242,24 @@ function cardImg(card) {
 }
 
 function outcome() {
-    playerScore.textContent = calSum(playerHand);
+    playerVal = calSum(playerHand)
+    playerScore.textContent = playerVal;
+    
+    if(playerVal > 21) {
+        nachoMessage.textContent = 'Ramses is the best!';
+    } else if (dealerVal > 21 && playerVal <= 21) {
+        nachoMessage.textContent = 'You are like a WINNER!!';
+    } else if (dealerVal === 21 && playerVal < 21) {
+        nachoMessage.textContent = 'You are like a Floosy';
+    } else if (playerVal < 21 && dealerVal < 21 && dealerVal < playerVal) {
+        nachoMessage.textContent = 'YOU SAVED THE ORPHANS';
+    } else if (playerPoints < 21 && dealerPoints < 21 && dealerPoints > playerPoints) {
+        nachoMessage.textContent = 'Ramses Wins';
+    } else if (dealerVal === playerVal) {
+        nachoMessage.textContent = 'Tie Match...'
+    }
+
+
 }
 
 
