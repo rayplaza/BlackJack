@@ -53,7 +53,9 @@ let ranks = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
 let deck, playerHand, dealerHand;
 let playerVal = 0;
 let dealerVal = 0;
-let numOfHits = 0;
+let numOfHits = 1;
+let dealerNumOfHits = 1;
+let currentlyBetting = true;
 
 
 
@@ -126,9 +128,9 @@ class Deck {
 
     dealerDeal() {
         dealerHand = [];
-        while(dealerHand.length < 1) {
+        while(dealerHand.length < 2) {
             dealerHand.push(this.deck.pop());
-            dealerContainer.innerHTML = '<img id= card-back src="images/backs/red.svg">';
+            // dealerContainer.innerHTML = '<img id= card-back src="images/backs/red.svg">';
         }
         return dealerHand;
     }
@@ -161,12 +163,23 @@ function dealButtonInit(){
     playerScore.textContent = playerVal;
     dealerVal = calSum(dealerHand)
     dealerScore.textContent = dealerVal;
+    currentPlay()
 }
 
-
+function currentPlay(){
+    console.log(dealerHand)
+    if(currentlyBetting){
+        console.log(document.getElementById("dealer").children[0].src)
+        document.getElementById('dealer').children[0].src = 'file:///Users/Paco/RPCode/blackjack/images/backs/red.svg'
+    } else {
+        console.log("HITTING CURRENT PLAY ELES")
+        document.getElementById('dealer').children[0].src = `file:///Users/Paco/RPCode/blackjack/images/${dealerHand[0].suit}/${dealerHand[0].suit}-r${dealerHand[0].rank}.svg`
+    }
+}
 
 // My Hit Initializer function
 function hitButtonInit() {
+    currentPlay()
     console.log("DECK: ", deck)
     playerHand.push(deck.deck.pop());
     playerCards();
@@ -186,6 +199,7 @@ function hitButtonInit() {
 
 // My Stand Initializer function
 function standButtonInit() {
+    currentlyBetting = false
     hitButton.disabled = true;
     standButton.disabled = true;
     nachoMessage.textContent = 'Ramses turn..';
@@ -196,6 +210,7 @@ function standButtonInit() {
         dealerVal = calSum(dealerHand)
         dealerScore.textContent = dealerVal;
     }
+    currentPlay()
     outcome();
 }
 
@@ -213,7 +228,10 @@ function calSum(hand){
 
 
 function playerCards() {
-    console.log(playerContainer)
+    // console.log(playerContainer.children)
+    // let currentCards = playerContainer.children
+    // currentCards.innerHTML = ''
+    
     if(numOfHits == 1){
         playerHand.forEach(function(i) {
             let nextCardImg = document.createElement('img');
@@ -245,8 +263,8 @@ function playerCards() {
 
 // Get these cards to display????????
 function dealerCards() {
-    console.log(dealerContainer)
-    if(numOfHits == 1){
+
+    if(dealerNumOfHits <= 1){
         dealerHand.forEach(function(i) {
             let nextCardImg = document.createElement('img');
             nextCardImg.setAttribute('src', cardImg(i));
@@ -259,7 +277,9 @@ function dealerCards() {
         })
     } else {
         dealerHand.forEach(function(i, x) {
-            if(x >= numOfHits){
+            console.log("X: ", x)
+            console.log("dealerNumOfHits: ", dealerNumOfHits)
+            if(x >= dealerNumOfHits){
                 let nextCardImg = document.createElement('img');
                 nextCardImg.setAttribute('src', cardImg(i));
                 nextCardImg.style.width = "100px";
@@ -271,7 +291,7 @@ function dealerCards() {
             }
         })
     }
-    numOfHits++
+    dealerNumOfHits++
 }
 
 function cardImg(card) {
@@ -318,6 +338,8 @@ function outcome() {
 
 
 }
+
+
 
 
 
