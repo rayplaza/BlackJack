@@ -187,8 +187,18 @@ function hitButtonInit() {
 // My Stand Initializer function
 function standButtonInit() {
     hitButton.disabled = true;
-
+    standButton.disabled = true;
+    nachoMessage.textContent = 'Ramses turn..';
+    // document.getElementById("card-back").style.display='none';
+    while (dealerVal < 15) {
+        dealerHand.push(deck.deck.pop())
+        dealerCards();
+        dealerVal = calSum(dealerHand)
+        dealerScore.textContent = dealerVal;
+    }
+    outcome();
 }
+
 
 
 // Calculates the sum of the players hand
