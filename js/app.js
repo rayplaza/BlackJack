@@ -214,6 +214,7 @@ function renderCards() {
             nextCardImg.style.border = "1px solid black";
             nextCardImg.style.borderRadius = "5px";
             nextCardImg.style.margin = "10px";
+            nextCardImg.style.backgroundColor = "rgb(152, 210, 230)";
             playerContainer.appendChild(nextCardImg);
         })
     } else {
@@ -225,6 +226,7 @@ function renderCards() {
                 nextCardImg.style.border = "1px solid black";
                 nextCardImg.style.borderRadius = "5px";
                 nextCardImg.style.margin = "10px";
+                nextCardImg.style.backgroundColor = "rgb(152, 210, 230)";
                 playerContainer.appendChild(nextCardImg);
             }
         })
