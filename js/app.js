@@ -183,18 +183,7 @@ function hitButtonInit() {
     console.log("DECK: ", deck)
     playerHand.push(deck.deck.pop());
     playerCards();
-    playerVal = calSum(playerHand)
-    playerScore.textContent = playerVal;
-    if (playerVal > 21) {
-        hitButton.disabled = true;
-        standButton.disabled = true;
-        nachoMessage.textContent = 'YOU LOSE!';
-        nachoMessage.style.color = 'red';
-    } else if (playerVal == 21) {
-        hitButton.disabled = true;
-        standButton.disabled = true;
-        nachoMessage.textContent = 'YOU WIN!';
-    }
+    outcome();
 }
 
 // My Stand Initializer function
@@ -228,10 +217,6 @@ function calSum(hand){
 
 
 function playerCards() {
-    // console.log(playerContainer.children)
-    // let currentCards = playerContainer.children
-    // currentCards.innerHTML = ''
-    
     if(numOfHits == 1){
         playerHand.forEach(function(i) {
             let nextCardImg = document.createElement('img');
