@@ -53,7 +53,7 @@ let ranks = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
 let deck, playerHand, dealerHand;
 let playerVal = 0;
 let dealerVal = 0;
-let numOfHits = 1;
+let numOfHits = 0;
 
 
 
@@ -126,7 +126,7 @@ class Deck {
 
     dealerDeal() {
         dealerHand = [];
-        while(dealerHand.length < 2) {
+        while(dealerHand.length < 1) {
             dealerHand.push(this.deck.pop());
         }
         return dealerHand;
@@ -148,7 +148,7 @@ standButton.addEventListener('click', standButtonInit)
 function dealButtonInit(){
     hitButton.disabled = false;
     standButton.disabled = false;
-    // need to clear
+    // need to clear for a reset()
     deck = new Deck();
     deck.createDeck(suits, ranks);
     deck.shuffle();
@@ -181,8 +181,8 @@ function hitButtonInit() {
 
 // My Stand Initializer function
 function standButtonInit() {
-    playerTurn ? playerTurn = false : playerTurn = true;
-    outcome();
+    hitButton.disabled = true;
+
 }
 
 
@@ -226,6 +226,8 @@ function playerCards() {
     }
     numOfHits++
 }
+
+
 // Get these cards to display????????
 function dealerCards() {
     console.log(dealerContainer)
@@ -288,7 +290,7 @@ function outcome() {
         nachoMessage.textContent = 'YOU SAVED THE ORPHANS';
         hitButton.disabled = true;
         standButton.disabled = true;
-    } else if (playerPoints < 21 && dealerPoints < 21 && dealerPoints > playerPoints) {
+    } else if (playerVal < 21 && dealerVal < 21 && dealerVal > playerVal) {
         nachoMessage.textContent = 'Ramses Wins';
         nachoMessage.style.color = 'red';
         hitButton.disabled = true;
