@@ -154,17 +154,21 @@ function dealButtonInit(){
     deck.shuffle();
     console.log(playerHand = deck.playerDeal());
     console.log(dealerHand = deck.dealerDeal());
-    renderCards();
-    outcome();
-    
+    playerCards();
+    dealerCards();
+    playerVal = calSum(playerHand)
+    playerScore.textContent = playerVal;
+    dealerVal = calSum(dealerHand)
+    dealerScore.textContent = dealerVal;
 }
+
 
 
 // My Hit Initializer function
 function hitButtonInit() {
     console.log("DECK: ", deck)
     playerHand.push(deck.deck.pop());
-    renderCards();
+    playerCards();
     playerVal = calSum(playerHand)
     playerScore.textContent = playerVal;
     if (playerVal > 21) {
@@ -178,26 +182,9 @@ function hitButtonInit() {
 // My Stand Initializer function
 function standButtonInit() {
     playerTurn ? playerTurn = false : playerTurn = true;
-    render();
+    outcome();
 }
 
-// Dealer Play function
-// function dealerPlay() {
-//     if (dealerHand < 17) {
-//         setTimeout(function() {
-//             var card = Deck.deck.pop();
-//             dealerHand.push(card);
-//         }, 1000);
-//     } else if (dealerHand >= 21) {
-//         setTimeout(function() {
-//             gameOver();
-//         }, 1100);
-//     } else if (dealerHand >= 17) {
-//         setTimeout(function() {
-//             gameOver();
-//         }, 1100);
-//     }
-// }
 
 // Calculates the sum of the players hand
 function calSum(hand){
@@ -210,11 +197,7 @@ function calSum(hand){
 }
 
 
-
-
-
-
-function renderCards() {
+function playerCards() {
     console.log(playerContainer)
     if(numOfHits == 1){
         playerHand.forEach(function(i) {
@@ -243,6 +226,36 @@ function renderCards() {
     }
     numOfHits++
 }
+// Get these cards to display????????
+function dealerCards() {
+    console.log(dealerContainer)
+    if(numOfHits == 1){
+        dealerHand.forEach(function(i) {
+            let nextCardImg = document.createElement('img');
+            nextCardImg.setAttribute('src', cardImg(i));
+            nextCardImg.style.width = "100px";
+            nextCardImg.style.border = "1px solid black";
+            nextCardImg.style.borderRadius = "5px";
+            nextCardImg.style.margin = "10px";
+            nextCardImg.style.backgroundColor = "rgb(152, 210, 230)";
+            dealerContainer.appendChild(nextCardImg);
+        })
+    } else {
+        dealerHand.forEach(function(i, x) {
+            if(x >= numOfHits){
+                let nextCardImg = document.createElement('img');
+                nextCardImg.setAttribute('src', cardImg(i));
+                nextCardImg.style.width = "100px";
+                nextCardImg.style.border = "1px solid black";
+                nextCardImg.style.borderRadius = "5px";
+                nextCardImg.style.margin = "10px";
+                nextCardImg.style.backgroundColor = "rgb(152, 210, 230)";
+                dealerContainer.appendChild(nextCardImg);
+            }
+        })
+    }
+    numOfHits++
+}
 
 function cardImg(card) {
     if(card.isFaceUp)
@@ -250,6 +263,8 @@ function cardImg(card) {
     return "images/backs/red.svg";
 
 }
+
+// Create a flip hidden card that removes the back image and adds a card from the deck on the board.????????
 
 function outcome() {
     playerVal = calSum(playerHand)
