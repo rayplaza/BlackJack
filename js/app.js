@@ -146,6 +146,9 @@ standButton.addEventListener('click', standButtonInit)
 
 // My Deal Initializer function
 function dealButtonInit(){
+    hitButton.disabled = false;
+    standButton.disabled = false;
+    // need to clear
     deck = new Deck();
     deck.createDeck(suits, ranks);
     deck.shuffle();
@@ -162,7 +165,14 @@ function hitButtonInit() {
     console.log("DECK: ", deck)
     playerHand.push(deck.deck.pop());
     renderCards();
-    outcome();
+    playerVal = calSum(playerHand)
+    playerScore.textContent = playerVal;
+    if (playerVal > 21) {
+        hitButton.disabled = true;
+        standButton.disabled = true;
+        nachoMessage.textContent = 'YOU LOSE!';
+        nachoMessage.style.color = 'red';
+    }
 }
 
 // My Stand Initializer function
@@ -247,16 +257,31 @@ function outcome() {
     
     if(playerVal > 21) {
         nachoMessage.textContent = 'Ramses is the best!';
+        nachoMessage.style.color = 'red';
+        hitButton.disabled = true;
+        standButton.disabled = true;
     } else if (dealerVal > 21 && playerVal <= 21) {
         nachoMessage.textContent = 'You are like a WINNER!!';
+        hitButton.disabled = true;
+        standButton.disabled = true;
     } else if (dealerVal === 21 && playerVal < 21) {
         nachoMessage.textContent = 'You are like a Floosy';
+        nachoMessage.style.color = 'red';
+        hitButton.disabled = true;
+        standButton.disabled = true;
     } else if (playerVal < 21 && dealerVal < 21 && dealerVal < playerVal) {
         nachoMessage.textContent = 'YOU SAVED THE ORPHANS';
+        hitButton.disabled = true;
+        standButton.disabled = true;
     } else if (playerPoints < 21 && dealerPoints < 21 && dealerPoints > playerPoints) {
         nachoMessage.textContent = 'Ramses Wins';
+        nachoMessage.style.color = 'red';
+        hitButton.disabled = true;
+        standButton.disabled = true;
     } else if (dealerVal === playerVal) {
         nachoMessage.textContent = 'Tie Match...'
+        hitButton.disabled = true;
+        standButton.disabled = true;
     }
 
 
