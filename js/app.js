@@ -138,7 +138,7 @@ class Deck {
 
 dealButton.addEventListener('click', dealButtonInit);
 hitButton.addEventListener('click', hitButtonInit);
-// standButton.addEventListener('click', standButtonInit)
+standButton.addEventListener('click', standButtonInit)
 
 // FUNCTIONS!!!!!!!!!
 
@@ -166,9 +166,10 @@ function hitButtonInit() {
 }
 
 // My Stand Initializer function
-// function standButtonInit() {
-
-// }
+function standButtonInit() {
+    playerTurn ? playerTurn = false : playerTurn = true;
+    render();
+}
 
 // Dealer Play function
 // function dealerPlay() {
