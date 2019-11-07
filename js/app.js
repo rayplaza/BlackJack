@@ -128,6 +128,7 @@ class Deck {
         dealerHand = [];
         while(dealerHand.length < 1) {
             dealerHand.push(this.deck.pop());
+            dealerContainer.innerHTML = '<img id= card-back src="images/backs/red.svg">';
         }
         return dealerHand;
     }
@@ -176,6 +177,10 @@ function hitButtonInit() {
         standButton.disabled = true;
         nachoMessage.textContent = 'YOU LOSE!';
         nachoMessage.style.color = 'red';
+    } else if (playerVal == 21) {
+        hitButton.disabled = true;
+        standButton.disabled = true;
+        nachoMessage.textContent = 'YOU WIN!';
     }
 }
 
