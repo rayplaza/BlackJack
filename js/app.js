@@ -177,10 +177,10 @@ function currentPlay(){
     console.log(dealerHand)
     if(currentlyBetting){
         console.log(document.getElementById("dealer").children[0].src)
-        document.getElementById('dealer').children[0].src = 'file:///Users/Paco/RPCode/blackjack/images/backs/red.svg'
+        document.getElementById('dealer').children[0].src = 'images/backs/red.svg'
     } else {
         console.log("HITTING CURRENT PLAY ELES")
-        document.getElementById('dealer').children[0].src = `file:///Users/Paco/RPCode/blackjack/images/${dealerHand[0].suit}/${dealerHand[0].suit}-r${dealerHand[0].rank}.svg`
+        document.getElementById('dealer').children[0].src = `images/${dealerHand[0].suit}/${dealerHand[0].suit}-r${dealerHand[0].rank}.svg`
     }
 }
 
