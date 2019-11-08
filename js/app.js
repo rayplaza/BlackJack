@@ -162,7 +162,10 @@ function dealButtonInit(){
     playerVal = calSum(playerHand)
     playerScore.textContent = playerVal;
     dealerVal = calSum(dealerHand)
-    dealerScore.textContent = dealerVal;
+    dealerScore.textContent = dealerHand[1].rank;
+
+    // dealerScore.textContent = dealerVal;
+    // dealerScore.style.display = 'none'
     currentPlay()
 }
 
@@ -192,6 +195,8 @@ function standButtonInit() {
     hitButton.disabled = true;
     standButton.disabled = true;
     nachoMessage.textContent = 'Ramses turn..';
+    dealerScore.textContent = dealerVal;
+
     // document.getElementById("card-back").style.display='none';
     while (dealerVal < 15) {
         dealerHand.push(deck.deck.pop())
