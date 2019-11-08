@@ -54,6 +54,8 @@ let deck, playerHand, dealerHand;
 let playerVal = 0;
 let dealerVal = 0;
 let numOfHits = 1;
+let dealerNumOfHits = 1;
+let currentlyBetting = true;
 
 
 
@@ -128,6 +130,7 @@ class Deck {
         dealerHand = [];
         while(dealerHand.length < 2) {
             dealerHand.push(this.deck.pop());
+            // dealerContainer.innerHTML = '<img id= card-back src="images/backs/red.svg">';
         }
         return dealerHand;
     }
@@ -148,7 +151,7 @@ standButton.addEventListener('click', standButtonInit)
 function dealButtonInit(){
     hitButton.disabled = false;
     standButton.disabled = false;
-    // need to clear
+    // need to clear for a reset()
     deck = new Deck();
     deck.createDeck(suits, ranks);
     deck.shuffle();
@@ -159,31 +162,57 @@ function dealButtonInit(){
     playerVal = calSum(playerHand)
     playerScore.textContent = playerVal;
     dealerVal = calSum(dealerHand)
-    dealerScore.textContent = dealerVal;
+    dealerScore.textContent = dealerHand[1].rank;
+    // dealerScore.textContent = dealerVal;
+    // dealerScore.style.display = 'none'
+    currentPlay()
+    if(playerVal == 21) {
+        nachoMessage.textContent = 'You are like a WINNER!!';
+        hitButton.disabled = true;
+        standButton.disabled = true;
+    }
 }
 
-
+function currentPlay(){
+    console.log(dealerHand)
+    if(currentlyBetting){
+        console.log(document.getElementById("dealer").children[0].src)
+        document.getElementById('dealer').children[0].src = 'file:///Users/Paco/RPCode/blackjack/images/backs/red.svg'
+    } else {
+        console.log("HITTING CURRENT PLAY ELES")
+        document.getElementById('dealer').children[0].src = `file:///Users/Paco/RPCode/blackjack/images/${dealerHand[0].suit}/${dealerHand[0].suit}-r${dealerHand[0].rank}.svg`
+    }
+}
 
 // My Hit Initializer function
 function hitButtonInit() {
+    currentPlay()
     console.log("DECK: ", deck)
     playerHand.push(deck.deck.pop());
     playerCards();
-    playerVal = calSum(playerHand)
-    playerScore.textContent = playerVal;
-    if (playerVal > 21) {
-        hitButton.disabled = true;
-        standButton.disabled = true;
-        nachoMessage.textContent = 'YOU LOSE!';
-        nachoMessage.style.color = 'red';
-    }
+    outcome();
 }
 
 // My Stand Initializer function
 function standButtonInit() {
-    playerTurn ? playerTurn = false : playerTurn = true;
+    currentlyBetting = false
+    hitButton.disabled = true;
+    standButton.disabled = true;
+    nachoMessage.textContent = 'Ramses turn..';
+    dealerScore.textContent = dealerVal;
+
+    // document.getElementById("card-back").style.display='none';
+    while (dealerVal < 15) {
+        dealerHand.push(deck.deck.pop());
+        dealerCards();
+        dealerVal = calSum(dealerHand);
+        isAce(dealerVal);
+        dealerScore.textContent = dealerVal;
+    }
+    currentPlay();
     outcome();
 }
+
 
 
 // Calculates the sum of the players hand
@@ -196,9 +225,15 @@ function calSum(hand){
     return total
 }
 
+// Calculate for the ace
+function isAce(hand) {
+    if(hand > 21 && playerHand == 'A') {
+       return hand - 10;
+    }
+}
+
 
 function playerCards() {
-    console.log(playerContainer)
     if(numOfHits == 1){
         playerHand.forEach(function(i) {
             let nextCardImg = document.createElement('img');
@@ -226,10 +261,12 @@ function playerCards() {
     }
     numOfHits++
 }
+
+
 // Get these cards to display????????
 function dealerCards() {
-    console.log(dealerContainer)
-    if(numOfHits == 1){
+
+    if(dealerNumOfHits <= 1){
         dealerHand.forEach(function(i) {
             let nextCardImg = document.createElement('img');
             nextCardImg.setAttribute('src', cardImg(i));
@@ -242,7 +279,9 @@ function dealerCards() {
         })
     } else {
         dealerHand.forEach(function(i, x) {
-            if(x >= numOfHits){
+            console.log("X: ", x)
+            console.log("dealerNumOfHits: ", dealerNumOfHits)
+            if(x >= dealerNumOfHits){
                 let nextCardImg = document.createElement('img');
                 nextCardImg.setAttribute('src', cardImg(i));
                 nextCardImg.style.width = "100px";
@@ -254,7 +293,7 @@ function dealerCards() {
             }
         })
     }
-    numOfHits++
+    dealerNumOfHits++
 }
 
 function cardImg(card) {
@@ -267,7 +306,8 @@ function cardImg(card) {
 // Create a flip hidden card that removes the back image and adds a card from the deck on the board.????????
 
 function outcome() {
-    playerVal = calSum(playerHand)
+    playerVal = calSum(playerHand);
+    isAce(playerVal);
     playerScore.textContent = playerVal;
     
     if(playerVal > 21) {
@@ -288,7 +328,7 @@ function outcome() {
         nachoMessage.textContent = 'YOU SAVED THE ORPHANS';
         hitButton.disabled = true;
         standButton.disabled = true;
-    } else if (playerPoints < 21 && dealerPoints < 21 && dealerPoints > playerPoints) {
+    } else if (playerVal < 21 && dealerVal < 21 && dealerVal > playerVal) {
         nachoMessage.textContent = 'Ramses Wins';
         nachoMessage.style.color = 'red';
         hitButton.disabled = true;
@@ -301,6 +341,8 @@ function outcome() {
 
 
 }
+
+
 
 
 

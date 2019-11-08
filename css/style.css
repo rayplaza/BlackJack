@@ -73,3 +73,11 @@ button {
   }
 
 
+ #card-back {
+  width: 100px;
+  border: 1px solid black;
+  border Radius: = 5px;
+  margin: 10px;
+  background-color: rgb(152, 210, 230);
+ }
+ 
