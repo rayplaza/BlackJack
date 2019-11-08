@@ -122,6 +122,8 @@ standButton.addEventListener('click', standButtonInit)
 function reset() {
     dealerContainer.innerHTML = "";
     playerContainer.innerHTML = "";
+    nachoMessage.textContent = 'Buena Suerte!';
+    nachoMessage.style.color = 'white';
     playerVal = 0;
     dealerVal = 0;
     numOfHits = 1;
@@ -296,7 +298,7 @@ function cardImg(card) {
 
 function outcome() {
     playerVal = calSum(playerHand);
-    isAce(playerVal, playerHand);
+    playerVal = isAce(playerVal, playerHand);
     playerScore.textContent = playerVal;
     if(playerVal > 21) {
         nachoMessage.textContent = 'Ramses is the best!';
