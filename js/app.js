@@ -166,6 +166,11 @@ function dealButtonInit(){
     // dealerScore.textContent = dealerVal;
     // dealerScore.style.display = 'none'
     currentPlay()
+    if(playerVal == 21) {
+        nachoMessage.textContent = 'You are like a WINNER!!';
+        hitButton.disabled = true;
+        standButton.disabled = true;
+    }
 }
 
 function currentPlay(){
