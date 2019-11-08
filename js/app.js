@@ -213,7 +213,7 @@ function standButtonInit() {
         dealerHand.push(deck.deck.pop());
         dealerCards();
         dealerVal = calSum(dealerHand);
-        isAce(dealerVal);
+        isAce(dealerVal, dealerHand);
         dealerScore.textContent = dealerVal;
     }
     currentPlay();
@@ -232,12 +232,21 @@ function calSum(hand){
     return total
 }
 
-// Calculate for the ace
-function isAce(hand) {
-    if(hand > 21 && playerHand == 'A') {
-       return hand - 10;
+// Deterimines if there is an Ace and calculates sum
+function isAce(val, hand) {
+    let hasAce = false;
+    hand.forEach(function(c) {
+        if(!hasAce) {
+            hasAce = (c.rank == "A");
+        }
+    });
+    if(val > 21 && hasAce) {
+       return val - 10;
+    } else {
+        return val;
     }
 }
+
 
 // Display PlayerCards
 function playerCards() {
@@ -314,9 +323,8 @@ function cardImg(card) {
 
 function outcome() {
     playerVal = calSum(playerHand);
-    isAce(playerVal);
+    isAce(playerVal, playerHand);
     playerScore.textContent = playerVal;
-    
     if(playerVal > 21) {
         nachoMessage.textContent = 'Ramses is the best!';
         nachoMessage.style.color = 'red';
@@ -331,22 +339,23 @@ function outcome() {
         nachoMessage.style.color = 'red';
         hitButton.disabled = true;
         standButton.disabled = true;
-    } else if (playerVal < 21 && dealerVal < 21 && dealerVal < playerVal) {
-        nachoMessage.textContent = 'YOU SAVED THE ORPHANS';
-        hitButton.disabled = true;
-        standButton.disabled = true;
-    } else if (playerVal < 21 && dealerVal < 21 && dealerVal > playerVal) {
-        nachoMessage.textContent = 'Ramses Wins';
-        nachoMessage.style.color = 'red';
-        hitButton.disabled = true;
-        standButton.disabled = true;
-    } else if (dealerVal === playerVal) {
-        nachoMessage.textContent = 'Tie Match...'
-        hitButton.disabled = true;
-        standButton.disabled = true;
     }
-
-
+    if(!currentlyBetting){
+        if (playerVal < 21 && dealerVal < 21 && dealerVal < playerVal) {
+            nachoMessage.textContent = 'YOU SAVED THE ORPHANS';
+            hitButton.disabled = true;
+            standButton.disabled = true;
+        } else if (playerVal < 21 && dealerVal < 21 && dealerVal > playerVal) {
+            nachoMessage.textContent = 'Ramses Wins';
+            nachoMessage.style.color = 'red';
+            hitButton.disabled = true;
+            standButton.disabled = true;
+        } else if (dealerVal === playerVal) {
+            nachoMessage.textContent = 'Tie Match...'
+            hitButton.disabled = true;
+            standButton.disabled = true;
+        }
+    }
 }
 
 
