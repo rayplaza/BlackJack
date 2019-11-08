@@ -34,7 +34,7 @@ var playerScore = document.querySelector('#player-score').getElementsByTagName('
 var dealButton = document.querySelector('#deal');
 var hitButton = document.querySelector('#hit');
 var standButton = document.querySelector('#stand');
-var message = document.querySelector('#message');
+var nachoMessage = document.querySelector('#message');
 var playerContainer = document.querySelector('#player');
 var dealerContainer = document.querySelector('#dealer');
 
@@ -49,10 +49,13 @@ var dealerContainer = document.querySelector('#dealer');
 //      assign a value to each card in the "cards" array x 4: Maybe I will have to have a key of Cards with each card having
 //      a value for each card for later summing. Ace can be 1 or 11(figure that out??)
 let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-let values = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
+let ranks = [2, 3, 4, 5, 6, 7, 8, 9, 'T', 'J', 'Q', 'K', 'A'];
 let deck, playerHand, dealerHand;
 let playerVal = 0;
 let dealerVal = 0;
+let numOfHits = 1;
+let dealerNumOfHits = 1;
+let currentlyBetting = true;
 
 
 
@@ -73,16 +76,17 @@ const numVals = {
 }
 
 class Card {
-    constructor(suit, value) {
+    constructor(suit, rank, isFaceUp = true) {
         this.suit = suit;
-        this.value = value;
+        this.rank = rank;
+        this.isFaceUp = isFaceUp;
     }
     computeValue(hand){
         let total = 0
         console.log(hand)
         hand.forEach(e => {
-            console.log("card value", numVals[e.value])
-            total += numVals[e.value]
+            console.log("card rank", numVals[e.rank])
+            total += numVals[e.rank]
         })
         return total
     }
@@ -93,10 +97,10 @@ class Deck {
         this.deck = []
     }
 
-    createDeck(suits, values) {
+    createDeck(suits, ranks) {
         for(let suit of suits) {
-            for(let value of values) {
-                this.deck.push(new Card(suit, value))
+            for(let rank of ranks) {
+                this.deck.push(new Card(suit, rank))
             }
         }
         return this.deck;
@@ -124,8 +128,9 @@ class Deck {
 
     dealerDeal() {
         dealerHand = [];
-        while(dealerHand.length < 1) {
+        while(dealerHand.length < 2) {
             dealerHand.push(this.deck.pop());
+            // dealerContainer.innerHTML = '<img id= card-back src="images/backs/red.svg">';
         }
         return dealerHand;
     }
@@ -136,7 +141,7 @@ class Deck {
 
 dealButton.addEventListener('click', dealButtonInit);
 hitButton.addEventListener('click', hitButtonInit);
-// standButton.addEventListener('click', standButtonInit)
+standButton.addEventListener('click', standButtonInit)
 
 // FUNCTIONS!!!!!!!!!
 
@@ -144,93 +149,203 @@ hitButton.addEventListener('click', hitButtonInit);
 
 // My Deal Initializer function
 function dealButtonInit(){
+    hitButton.disabled = false;
+    standButton.disabled = false;
+    // need to clear for a reset()
     deck = new Deck();
-    deck.createDeck(suits, values);
+    deck.createDeck(suits, ranks);
     deck.shuffle();
     console.log(playerHand = deck.playerDeal());
     console.log(dealerHand = deck.dealerDeal());
-    
-}
-
-
-// My Hit Initializer function
-function hitButtonInit() {
-    console.log("DECK: ", deck)
-    playerHand.push(deck.deck.pop());
-    // if(player.calScore() > 21) {
-    //     gameOver('You are like a floosy');
-    // }
-}
-
-// My Stand Initializer function
-// function standButtonInit() {
-
-// }
-
-// Dealer Play function
-function dealerPlay() {
-    if (dealerHand < 17) {
-        setTimeout(function() {
-            var card = Deck.deck.pop();
-            dealerHand.push(card);
-        }, 1000);
-    } else if (dealerHand >= 21) {
-        setTimeout(function() {
-            gameOver();
-        }, 1100);
-    } else if (dealerHand >= 17) {
-        setTimeout(function() {
-            gameOver();
-        }, 1100);
+    playerCards();
+    dealerCards();
+    playerVal = calSum(playerHand)
+    playerScore.textContent = playerVal;
+    dealerVal = calSum(dealerHand)
+    dealerScore.textContent = dealerHand[1].rank;
+    // dealerScore.textContent = dealerVal;
+    // dealerScore.style.display = 'none'
+    currentPlay()
+    if(playerVal == 21) {
+        nachoMessage.textContent = 'You are like a WINNER!!';
+        hitButton.disabled = true;
+        standButton.disabled = true;
     }
 }
 
-// This gives value to each rank
-function computeValue(hand){
+function currentPlay(){
+    console.log(dealerHand)
+    if(currentlyBetting){
+        console.log(document.getElementById("dealer").children[0].src)
+        document.getElementById('dealer').children[0].src = 'file:///Users/Paco/RPCode/blackjack/images/backs/red.svg'
+    } else {
+        console.log("HITTING CURRENT PLAY ELES")
+        document.getElementById('dealer').children[0].src = `file:///Users/Paco/RPCode/blackjack/images/${dealerHand[0].suit}/${dealerHand[0].suit}-r${dealerHand[0].rank}.svg`
+    }
+}
+
+// My Hit Initializer function
+function hitButtonInit() {
+    currentPlay()
+    console.log("DECK: ", deck)
+    playerHand.push(deck.deck.pop());
+    playerCards();
+    outcome();
+}
+
+// My Stand Initializer function
+function standButtonInit() {
+    currentlyBetting = false
+    hitButton.disabled = true;
+    standButton.disabled = true;
+    nachoMessage.textContent = 'Ramses turn..';
+    dealerScore.textContent = dealerVal;
+
+    // document.getElementById("card-back").style.display='none';
+    while (dealerVal < 15) {
+        dealerHand.push(deck.deck.pop());
+        dealerCards();
+        dealerVal = calSum(dealerHand);
+        isAce(dealerVal);
+        dealerScore.textContent = dealerVal;
+    }
+    currentPlay();
+    outcome();
+}
+
+
+
+// Calculates the sum of the players hand
+function calSum(hand){
     let total = 0
-    console.log(hand)
     hand.forEach(e => {
-        console.log("card value", numVals[e.value])
-        total += numVals[e.value]
+        console.log("card rank", numVals[e.rank])
+        total += numVals[e.rank]
     })
     return total
 }
 
-function render() {
+// Calculate for the ace
+function isAce(hand) {
+    if(hand > 21 && playerHand == 'A') {
+       return hand - 10;
+    }
+}
 
-    playerHand.forEach(function(i)) {
-        let nextCardImg = document.createElement('img');
-        nextCardImg.setAttribute('src', cardImg(i));
-        playerContainer.appendChild(nextCardImg)
+
+function playerCards() {
+    if(numOfHits == 1){
+        playerHand.forEach(function(i) {
+            let nextCardImg = document.createElement('img');
+            nextCardImg.setAttribute('src', cardImg(i));
+            nextCardImg.style.width = "100px";
+            nextCardImg.style.border = "1px solid black";
+            nextCardImg.style.borderRadius = "5px";
+            nextCardImg.style.margin = "10px";
+            nextCardImg.style.backgroundColor = "rgb(152, 210, 230)";
+            playerContainer.appendChild(nextCardImg);
+        })
+    } else {
+        playerHand.forEach(function(i, x) {
+            if(x >= numOfHits){
+                let nextCardImg = document.createElement('img');
+                nextCardImg.setAttribute('src', cardImg(i));
+                nextCardImg.style.width = "100px";
+                nextCardImg.style.border = "1px solid black";
+                nextCardImg.style.borderRadius = "5px";
+                nextCardImg.style.margin = "10px";
+                nextCardImg.style.backgroundColor = "rgb(152, 210, 230)";
+                playerContainer.appendChild(nextCardImg);
+            }
+        })
+    }
+    numOfHits++
+}
+
+
+// Get these cards to display????????
+function dealerCards() {
+
+    if(dealerNumOfHits <= 1){
+        dealerHand.forEach(function(i) {
+            let nextCardImg = document.createElement('img');
+            nextCardImg.setAttribute('src', cardImg(i));
+            nextCardImg.style.width = "100px";
+            nextCardImg.style.border = "1px solid black";
+            nextCardImg.style.borderRadius = "5px";
+            nextCardImg.style.margin = "10px";
+            nextCardImg.style.backgroundColor = "rgb(152, 210, 230)";
+            dealerContainer.appendChild(nextCardImg);
+        })
+    } else {
+        dealerHand.forEach(function(i, x) {
+            console.log("X: ", x)
+            console.log("dealerNumOfHits: ", dealerNumOfHits)
+            if(x >= dealerNumOfHits){
+                let nextCardImg = document.createElement('img');
+                nextCardImg.setAttribute('src', cardImg(i));
+                nextCardImg.style.width = "100px";
+                nextCardImg.style.border = "1px solid black";
+                nextCardImg.style.borderRadius = "5px";
+                nextCardImg.style.margin = "10px";
+                nextCardImg.style.backgroundColor = "rgb(152, 210, 230)";
+                dealerContainer.appendChild(nextCardImg);
+            }
+        })
+    }
+    dealerNumOfHits++
+}
+
+function cardImg(card) {
+    if(card.isFaceUp)
+        return `images/${card.suit}/${card.suit}-r${card.rank}.svg`;
+    return "images/backs/red.svg";
+
+}
+
+// Create a flip hidden card that removes the back image and adds a card from the deck on the board.????????
+
+function outcome() {
+    playerVal = calSum(playerHand);
+    isAce(playerVal);
+    playerScore.textContent = playerVal;
+    
+    if(playerVal > 21) {
+        nachoMessage.textContent = 'Ramses is the best!';
+        nachoMessage.style.color = 'red';
+        hitButton.disabled = true;
+        standButton.disabled = true;
+    } else if (dealerVal > 21 && playerVal <= 21) {
+        nachoMessage.textContent = 'You are like a WINNER!!';
+        hitButton.disabled = true;
+        standButton.disabled = true;
+    } else if (dealerVal === 21 && playerVal < 21) {
+        nachoMessage.textContent = 'You are like a Floosy';
+        nachoMessage.style.color = 'red';
+        hitButton.disabled = true;
+        standButton.disabled = true;
+    } else if (playerVal < 21 && dealerVal < 21 && dealerVal < playerVal) {
+        nachoMessage.textContent = 'YOU SAVED THE ORPHANS';
+        hitButton.disabled = true;
+        standButton.disabled = true;
+    } else if (playerVal < 21 && dealerVal < 21 && dealerVal > playerVal) {
+        nachoMessage.textContent = 'Ramses Wins';
+        nachoMessage.style.color = 'red';
+        hitButton.disabled = true;
+        standButton.disabled = true;
+    } else if (dealerVal === playerVal) {
+        nachoMessage.textContent = 'Tie Match...'
+        hitButton.disabled = true;
+        standButton.disabled = true;
     }
 
+
 }
 
-// calculate the score
-// function getScore() {
-//     var sum = 0;
-//     for()
-
-// }
 
 
 
 
 
 
-// playerScore variable
-// var playerScore = 
-// console.log(playerScore)
-
-// dealerScore variable
-var dealerScore = '';
-
-function doMessage(str) {
-    message.innerHTML = str;
-}
-
-// CREATE A gameOver function
-function gameOver(str) {
-    doMessage(str);
-}
 
