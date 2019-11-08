@@ -145,13 +145,16 @@ standButton.addEventListener('click', standButtonInit)
 
 // FUNCTIONS!!!!!!!!!
 
-
-
-// My Deal Initializer function
-function dealButtonInit(){
+// Reset
+function reset() {
+    dealerContainer.innerHTML = "";
+    playerContainer.innerHTML = "";
+    playerVal = 0;
+    dealerVal = 0;
+    numOfHits = 1;
+    dealerNumOfHits = 1;
     hitButton.disabled = false;
     standButton.disabled = false;
-    // need to clear for a reset()
     deck = new Deck();
     deck.createDeck(suits, ranks);
     deck.shuffle();
@@ -159,6 +162,12 @@ function dealButtonInit(){
     console.log(dealerHand = deck.dealerDeal());
     playerCards();
     dealerCards();
+    currentlyBetting = true;
+}
+
+// My Deal Initializer function
+function dealButtonInit(){
+    reset();
     playerVal = calSum(playerHand)
     playerScore.textContent = playerVal;
     dealerVal = calSum(dealerHand)
@@ -167,9 +176,7 @@ function dealButtonInit(){
     // dealerScore.style.display = 'none'
     currentPlay()
     if(playerVal == 21) {
-        nachoMessage.textContent = 'You are like a WINNER!!';
-        hitButton.disabled = true;
-        standButton.disabled = true;
+        outcome();
     }
 }
 
@@ -232,7 +239,7 @@ function isAce(hand) {
     }
 }
 
-
+// Display PlayerCards
 function playerCards() {
     if(numOfHits == 1){
         playerHand.forEach(function(i) {
@@ -263,7 +270,7 @@ function playerCards() {
 }
 
 
-// Get these cards to display????????
+// Displays the dealer cards
 function dealerCards() {
 
     if(dealerNumOfHits <= 1){
