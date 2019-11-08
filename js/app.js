@@ -163,7 +163,6 @@ function dealButtonInit(){
     playerScore.textContent = playerVal;
     dealerVal = calSum(dealerHand)
     dealerScore.textContent = dealerHand[1].rank;
-
     // dealerScore.textContent = dealerVal;
     // dealerScore.style.display = 'none'
     currentPlay()
@@ -199,12 +198,13 @@ function standButtonInit() {
 
     // document.getElementById("card-back").style.display='none';
     while (dealerVal < 15) {
-        dealerHand.push(deck.deck.pop())
+        dealerHand.push(deck.deck.pop());
         dealerCards();
-        dealerVal = calSum(dealerHand)
+        dealerVal = calSum(dealerHand);
+        isAce(dealerVal);
         dealerScore.textContent = dealerVal;
     }
-    currentPlay()
+    currentPlay();
     outcome();
 }
 
@@ -218,6 +218,13 @@ function calSum(hand){
         total += numVals[e.rank]
     })
     return total
+}
+
+// Calculate for the ace
+function isAce(hand) {
+    if(hand > 21 && playerHand == 'A') {
+       return hand - 10;
+    }
 }
 
 
@@ -294,7 +301,8 @@ function cardImg(card) {
 // Create a flip hidden card that removes the back image and adds a card from the deck on the board.????????
 
 function outcome() {
-    playerVal = calSum(playerHand)
+    playerVal = calSum(playerHand);
+    isAce(playerVal);
     playerScore.textContent = playerVal;
     
     if(playerVal > 21) {
